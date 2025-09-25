@@ -61,7 +61,7 @@ This will download and install the modal component and its dependencies into you
 
 Here are the components and features we plan to implement:
 
-- [ ] **ProTable**: Encapsulate request, pagination, custom columns, and other functions
+- [x] **ProTable**: Encapsulate request, pagination, custom columns, and other functions
 - [x] **Command Modal**: Dynamic invocation without JSX wrapper
 - [x] **Image Component**: Support preview functionality
 - [x] **Markdown Component**: Support rendering Markdown content && mdx

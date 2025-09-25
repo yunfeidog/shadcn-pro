@@ -75,6 +75,35 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:component",
+      "title": "Data Table",
+      "description": "A powerful data table with server-side pagination using TanStack Table and SWR",
+      "dependencies": ["@tanstack/react-table", "swr", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/yunfei/blocks/data-table.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/yunfei/blocks/common-pagination.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "components/ui/table.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "components/ui/button.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "components/ui/select.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
