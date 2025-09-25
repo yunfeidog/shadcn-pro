@@ -4,6 +4,27 @@
   "homepage": "https://acme.com",
   "items": [
     {
+      "name": "modal",
+      "type": "registry:component",
+      "title": "Command Modal",
+      "description": "A command modal component with static methods similar to Ant Design Modal",
+      "dependencies": ["@radix-ui/react-dialog"],
+      "files": [
+        {
+          "path": "registry/yunfei/blocks/modal/modal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/yunfei/blocks/modal/components/dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/yunfei/blocks/modal/components/button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "hello-world",
       "type": "registry:component",
       "title": "Hello World",
