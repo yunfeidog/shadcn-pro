@@ -62,6 +62,19 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "markdown",
+      "type": "registry:component",
+      "title": "Markdown",
+      "description": "A markdown and MDX renderer component with customizable styling",
+      "dependencies": ["next-mdx-remote"],
+      "files": [
+        {
+          "path": "registry/yunfei/blocks/markdown.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

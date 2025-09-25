@@ -64,7 +64,7 @@ Here are the components and features we plan to implement:
 - [ ] **ProTable**: Encapsulate request, pagination, custom columns, and other functions
 - [x] **Command Modal**: Dynamic invocation without JSX wrapper
 - [x] **Image Component**: Support preview functionality
-- [ ] **Markdown Component**: Support rendering Markdown content
+- [x] **Markdown Component**: Support rendering Markdown content && mdx
 - [x] **AI Hook**: For example `const { text } = useAI()`
 - [x] **CodeBlock Component**: Support syntax highlighting and copy functionality
 - [ ] **Documentation Introduction**: Online preview of component content, supporting npx or copy installation
