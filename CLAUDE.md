@@ -67,3 +67,46 @@ Path aliases are configured in `tsconfig.json` and `components.json`:
 - `@/*` maps to the root directory
 - `@/components` maps to the components directory
 - `@/registry` maps to the registry directory
+
+### Registry JSON Structure
+
+Each registry item in `registry.json` follows this structure:
+```json
+{
+  "name": "component-name",
+  "type": "registry:component",
+  "title": "Display Title",
+  "description": "Component description",
+  "dependencies": ["external-package"],
+  "registryDependencies": ["button", "card"],
+  "files": [
+    {
+      "path": "registry/new-york/blocks/component-name/component.tsx",
+      "type": "registry:component"
+    }
+  ]
+}
+```
+
+### Component Types and Organization
+
+The registry supports multiple file types:
+- `registry:component` - React components
+- `registry:hook` - Custom React hooks
+- `registry:lib` - Utility libraries and functions
+- `registry:page` - Complete page components with target paths
+
+Registry styles:
+- `new-york` - Primary style for most components
+- `yunfei` - Alternative style (used for modal component)
+
+### Built Registry Output
+
+The `pnpm registry:build` command generates:
+- Static JSON files in `public/r/` for each component
+- Each JSON includes the full component code and metadata
+- Files are served at `http://localhost:3000/r/[component-name].json`
+
+### v0 Integration
+
+Components support "Open in v0" functionality via the `OpenInV0Button` component, which uses v0's API to open components directly in the v0 editor.

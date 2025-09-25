@@ -66,5 +66,5 @@ Here are the components and features we plan to implement:
 - [ ] **Image Component**: Support preview functionality
 - [ ] **Markdown Component**: Support rendering Markdown content
 - [ ] **AI Hook**: For example `const { text } = useAI()`
-- [ ] **CodeBlock Component**: Support syntax highlighting and copy functionality
+- [x] **CodeBlock Component**: Support syntax highlighting and copy functionality
 - [ ] **Documentation Introduction**: Online preview of component content, supporting npx or copy installation
