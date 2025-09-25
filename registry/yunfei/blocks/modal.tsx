@@ -7,8 +7,8 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription
-} from '@/components/dialog'
-import { Button } from '@/components/button'
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 export interface BaseModalProps {
   title?: string

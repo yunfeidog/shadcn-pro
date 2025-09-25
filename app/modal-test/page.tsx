@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Modal } from '@/registry/yunfei/blocks/modal/modal'
+import { Modal } from '@/registry/yunfei/blocks/modal'
 
 export default function ModalTestPage() {
   const showInfoModal = () => {

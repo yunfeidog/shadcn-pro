@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/registry/yunfei/blocks/code-block";
 
 export default function CodeBlockDemo() {
   const jsCode = `function fibonacci(n) {
