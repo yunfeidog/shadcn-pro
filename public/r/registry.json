@@ -49,6 +49,19 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "zoomable-image",
+      "type": "registry:component",
+      "title": "Zoomable Image",
+      "description": "An image component with zoom functionality using react-medium-image-zoom",
+      "dependencies": ["react-medium-image-zoom"],
+      "files": [
+        {
+          "path": "registry/yunfei/blocks/zoomable-image.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "zoomable-image",
+  "type": "registry:component",
+  "title": "Zoomable Image",
+  "description": "An image component with zoom functionality using react-medium-image-zoom",
+  "dependencies": [
+    "react-medium-image-zoom"
+  ],
+  "files": [
+    {
+      "path": "registry/yunfei/blocks/zoomable-image.tsx",
+      "content": "import Image from 'next/image'\r\nimport Zoom from 'react-medium-image-zoom'\r\nimport 'react-medium-image-zoom/dist/styles.css'\r\n\r\ninterface ZoomableImageProps {\r\n  src: string\r\n  alt?: string\r\n  width?: number\r\n  height?: number\r\n  useNextImage?: boolean\r\n  className?: string\r\n}\r\n\r\nexport const ZoomableImage = ({\r\n  src,\r\n  alt = '',\r\n  width,\r\n  height,\r\n  useNextImage = true,\r\n  className\r\n}: ZoomableImageProps) => {\r\n  const ImgComponent = useNextImage ? (\r\n    <Image src={src} alt={alt} width={width} height={height} className={className} />\r\n  ) : (\r\n    <img src={src} width={width} height={height} alt={alt} className={className} />\r\n  )\r\n\r\n  return <Zoom>{ImgComponent}</Zoom>\r\n}",
+      "type": "registry:component"
+    }
+  ]
+}
