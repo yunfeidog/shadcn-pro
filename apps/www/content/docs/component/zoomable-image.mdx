@@ -1,0 +1,169 @@
+---
+title: Zoomable Image
+date: 2024-04-25
+description: An image component with zoom functionality using react-medium-image-zoom
+author: dillionverma
+published: true
+---
+
+<ComponentPreview name="zoomable-image-demo" />
+
+An interactive image component that provides smooth zoom functionality with click-to-zoom, scroll zoom, and touch gestures. Built with react-medium-image-zoom for optimal performance and user experience.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn-pro@latest add zoomable-image
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the required dependencies:</Step>
+
+```bash
+npm install react-medium-image-zoom
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="zoomable-image" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { ZoomableImage } from "@/components/ui/zoomable-image"
+```
+
+```tsx showLineNumbers
+<ZoomableImage
+  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4"
+  alt="Beautiful landscape"
+  width={400}
+  height={300}
+  className="rounded-lg shadow-md"
+/>
+```
+
+## Features
+
+- **🔍 Click to Zoom**: Single click to enter zoom mode with smooth transition
+- **🖱️ Scroll Zoom**: Mouse wheel or trackpad for precise zoom control
+- **📱 Touch Support**: Pinch gestures on mobile and tablet devices
+- **⌨️ Keyboard Navigation**: ESC key to close zoom mode, accessible controls
+- **🚀 Next.js Integration**: Works with both Next.js Image and native img tags
+- **🎨 Customizable**: Full control over styling, margins, and behavior
+- **♿ Accessible**: Proper ARIA labels and keyboard navigation support
+
+## Examples
+
+### Basic Zoomable Image
+
+<ComponentPreview name="zoomable-image-basic" />
+
+### Image Grid
+
+<ComponentPreview name="zoomable-image-grid" />
+
+### Native Image Tag
+
+<ComponentPreview name="zoomable-image-native" />
+
+### Circular Image
+
+<ComponentPreview name="zoomable-image-circle" />
+
+## Props
+
+### ZoomableImage
+
+| Prop           | Type      | Default | Description                                  |
+| -------------- | --------- | ------- | -------------------------------------------- |
+| `src`          | `string`  | `-`     | Image source URL                             |
+| `alt`          | `string`  | `-`     | Alt text for the image                       |
+| `width`        | `number`  | `-`     | Image width in pixels                        |
+| `height`       | `number`  | `-`     | Image height in pixels                       |
+| `useNextImage` | `boolean` | `true`  | Whether to use Next.js Image component       |
+| `className`    | `string`  | `-`     | Additional CSS classes to apply to component |
+| `zoomMargin`   | `number`  | `0`     | Margin around zoomed image in pixels         |
+
+## Advanced Usage
+
+### Custom Styling
+
+```tsx showLineNumbers
+<ZoomableImage
+  src="/beautiful-sunset.jpg"
+  alt="Sunset over mountains"
+  width={500}
+  height={300}
+  className="border-primary/20 hover:border-primary/40 rounded-xl border-2 shadow-xl transition-colors"
+  zoomMargin={40}
+/>
+```
+
+### Using Native img Tag
+
+```tsx showLineNumbers
+<ZoomableImage
+  src="/profile-photo.jpg"
+  alt="User profile photo"
+  width={200}
+  height={200}
+  useNextImage={false}
+  className="rounded-full object-cover"
+/>
+```
+
+### Gallery with Multiple Images
+
+```tsx showLineNumbers
+const images = [
+  { src: "/gallery/1.jpg", alt: "Gallery image 1" },
+  { src: "/gallery/2.jpg", alt: "Gallery image 2" },
+  { src: "/gallery/3.jpg", alt: "Gallery image 3" },
+]
+
+function ImageGallery() {
+  return (
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {images.map((image, index) => (
+        <ZoomableImage
+          key={index}
+          src={image.src}
+          alt={image.alt}
+          width={300}
+          height={200}
+          className="h-48 w-full rounded-lg object-cover"
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+## Performance Tips
+
+- **Next.js Optimization**: Keep `useNextImage={true}` for automatic WebP/AVIF conversion and lazy loading
+- **Image Dimensions**: Always specify width and height for better layout stability
+- **Responsive Images**: Use responsive classes for different screen sizes
+- **Loading States**: The component handles loading states automatically when using Next.js Image

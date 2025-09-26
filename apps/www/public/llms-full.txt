@@ -1,0 +1,971 @@
+===== COMPONENT: code-block =====
+Title: code block
+Description: A component for code block with syntax highlighting.
+
+--- file: shadcn-pro/components/code-block.tsx ---
+"use client"
+
+import { useState } from "react"
+import { Check, Copy } from "lucide-react"
+import { Highlight, themes } from "prism-react-renderer"
+
+import { cn } from "@/lib/utils"
+
+interface CodeBlockProps {
+  children: string
+  language?: string
+  className?: string
+}
+
+export function CodeBlock({
+  children,
+  language = "javascript",
+  className,
+}: CodeBlockProps) {
+  const [copied, setCopied] = useState(false)
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(children)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error("复制失败:", err)
+    }
+  }
+
+  return (
+    <div
+      className={cn(
+        "bg-background relative rounded-lg border shadow-sm",
+        className
+      )}
+    >
+      {/* 顶部栏 */}
+      <div className="bg-muted/30 flex items-center justify-between border-b px-4 py-1">
+        <div className="flex items-center gap-1">
+          <div className="flex gap-1.5">
+            <div className="h-3 w-3 rounded-full bg-red-500"></div>
+            <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
+            <div className="h-3 w-3 rounded-full bg-green-500"></div>
+          </div>
+          <span className="text-muted-foreground ml-2 text-sm font-medium">
+            {language}
+          </span>
+        </div>
+        <button
+          onClick={copyToClipboard}
+          className="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex items-center gap-1.5 rounded px-2 py-1 text-sm transition-colors"
+        >
+          {copied ? (
+            <>
+              <Check className="h-4 w-4" />
+              已复制
+            </>
+          ) : (
+            <>
+              <Copy className="h-4 w-4" />
+              复制
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* 代码高亮 */}
+      <Highlight
+        code={children.trim()}
+        language={language}
+        theme={themes.github}
+      >
+        {({
+          className: preClass,
+          style,
+          tokens,
+          getLineProps,
+          getTokenProps,
+        }) => (
+          <pre
+            className={`${preClass} overflow-x-auto p-4 font-mono text-sm leading-relaxed`}
+            style={style}
+          >
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({ line })}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token })} />
+                ))}
+              </div>
+            ))}
+          </pre>
+        )}
+      </Highlight>
+    </div>
+  )
+}
+
+
+===== EXAMPLE: code-block-demo =====
+Title: code-block-demo
+
+--- file: example/code-block-demo.tsx ---
+import { CodeBlock } from "@/registry/shadcn-pro/components/code-block"
+
+export default function CodeBlockDemo() {
+  const pythonCode = `def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + middle + quicksort(right)`
+  return (
+    <>
+      <div className="space-y-8">
+        <CodeBlock language="python">{pythonCode}</CodeBlock>
+      </div>
+    </>
+  )
+}
+
+
+
+===== COMPONENT: modal =====
+Title: modal
+Description: A component for modal.
+
+--- file: shadcn-pro/components/modal.tsx ---
+"use client"
+import * as React from "react"
+import { createRoot } from "react-dom/client"
+
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+
+export interface BaseModalProps {
+  title?: string
+  content: React.ReactNode
+  description?: string
+  okText?: string
+  cancelText?: string
+  onOk?: () => void
+  onCancel?: () => void
+  onClose?: () => void
+}
+
+export interface ModalFuncProps extends BaseModalProps {
+  icon?: React.ReactNode
+}
+
+interface ModalConfig extends ModalFuncProps {
+  type?: "info" | "success" | "error" | "warning" | "confirm"
+}
+
+const ModalContent: React.FC<{
+  config: ModalConfig
+  onClose: () => void
+}> = ({ config, onClose }) => {
+  const {
+    title,
+    description,
+    content,
+    okText = "确认",
+    cancelText = "取消",
+    onOk,
+    onCancel,
+    type = "info",
+  } = config
+
+  const handleOk = () => {
+    onOk?.()
+    onClose()
+  }
+
+  const handleCancel = () => {
+    onCancel?.()
+    onClose()
+  }
+
+  const getIcon = () => {
+    switch (type) {
+      case "success":
+        return (
+          <div className="flex size-6 items-center justify-center rounded-full bg-green-100">
+            <svg
+              className="size-4 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </div>
+        )
+      case "error":
+        return (
+          <div className="flex size-6 items-center justify-center rounded-full bg-red-100">
+            <svg
+              className="size-4 text-red-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </div>
+        )
+      case "warning":
+        return (
+          <div className="flex size-6 items-center justify-center rounded-full bg-yellow-100">
+            <svg
+              className="size-4 text-yellow-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              ></path>
+            </svg>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+    <Dialog open onOpenChange={() => handleCancel()}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <div className="flex items-start gap-3">
+            {getIcon()}
+            <div className="flex-1">
+              {title && <DialogTitle>{title}</DialogTitle>}
+              {description && (
+                <DialogDescription>{description}</DialogDescription>
+              )}
+            </div>
+          </div>
+        </DialogHeader>
+        <div className="py-4">
+          <div className="text-sm text-gray-700 dark:text-gray-300">
+            {content}
+          </div>
+        </div>
+        <DialogFooter>
+          {(type === "confirm" || type === "warning") && (
+            <Button variant="outline" onClick={handleCancel}>
+              {cancelText}
+            </Button>
+          )}
+          <Button
+            variant={type === "error" ? "destructive" : "default"}
+            onClick={handleOk}
+          >
+            {okText}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const createModal = (config: ModalConfig) => {
+  const div = document.createElement("div")
+  document.body.appendChild(div)
+  const root = createRoot(div)
+
+  const handleClose = () => {
+    config.onClose?.()
+    root.unmount()
+    div.remove()
+  }
+
+  root.render(<ModalContent config={config} onClose={handleClose} />)
+}
+
+export const Modal = {
+  info: (config: ModalFuncProps) => createModal({ ...config, type: "info" }),
+  success: (config: ModalFuncProps) =>
+    createModal({ ...config, type: "success" }),
+  error: (config: ModalFuncProps) => createModal({ ...config, type: "error" }),
+  warning: (config: ModalFuncProps) =>
+    createModal({ ...config, type: "warning" }),
+  confirm: (config: ModalFuncProps) =>
+    createModal({ ...config, type: "confirm" }),
+}
+
+export type ModalType = keyof typeof Modal
+
+
+===== EXAMPLE: modal-demo =====
+Title: Modal Demo
+
+--- file: example/modal-demo.tsx ---
+"use client"
+
+import * as React from "react"
+
+import { Modal } from "@/registry/shadcn-pro/components/modal"
+
+export default function ModalTestPage() {
+  const showInfoModal = () => {
+    Modal.info({
+      title: "Information",
+      content: (
+        <div>
+          <p>This is an information message.</p>
+          <p>Some additional content here.</p>
+        </div>
+      ),
+      onOk() {
+        console.log("Info modal closed")
+      },
+    })
+  }
+
+  const showSuccessModal = () => {
+    Modal.success({
+      title: "Success",
+      content: "Operation completed successfully!",
+    })
+  }
+
+  const showErrorModal = () => {
+    Modal.error({
+      title: "Error occurred",
+      content: "Failed to perform the operation. Please try again.",
+    })
+  }
+
+  const showWarningModal = () => {
+    Modal.warning({
+      title: "Warning",
+      content: "This is a warning message that you should pay attention to.",
+    })
+  }
+
+  const showConfirmModal = () => {
+    Modal.confirm({
+      title: "Confirm action",
+      content: "Are you sure you want to perform this action?",
+      onOk() {
+        console.log("Confirmed")
+      },
+      onCancel() {
+        console.log("Cancelled")
+      },
+    })
+  }
+
+  return (
+    <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-8">
+      <header className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight">
+          Command Modal Test
+        </h1>
+        <p className="text-muted-foreground">
+          Test page for the command modal component
+        </p>
+      </header>
+      <main className="flex flex-col gap-4">
+        <div className="flex flex-wrap gap-4">
+          <button
+            className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            onClick={showInfoModal}
+          >
+            Show Info Modal
+          </button>
+          <button
+            className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+            onClick={showSuccessModal}
+          >
+            Show Success Modal
+          </button>
+          <button
+            className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            onClick={showErrorModal}
+          >
+            Show Error Modal
+          </button>
+          <button
+            className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+            onClick={showWarningModal}
+          >
+            Show Warning Modal
+          </button>
+          <button
+            className="rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
+            onClick={showConfirmModal}
+          >
+            Show Confirm Modal
+          </button>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+
+
+===== COMPONENT: pro-table =====
+Title: pro-table
+Description: A component for pro-table.
+
+--- file: shadcn-pro/components/pro-table.tsx ---
+"use client"
+
+import { forwardRef, useImperativeHandle, useMemo, useState } from "react"
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+import useSWR, { mutate } from "swr"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import CommonPagination from "./common-pagination"
+
+export type DataTableRequest<TData> = (args: {
+  pageNumber: number
+  pageSize: number
+}) => Promise<{ total: number; records: TData[] }>
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  request: DataTableRequest<TData>
+  defaultPageSize?: number
+}
+
+export interface DataTableRef {
+  refresh: () => void
+}
+
+export const DataTable = forwardRef<DataTableRef, DataTableProps<any, any>>(
+  ({ columns, request, defaultPageSize = 10 }, ref) => {
+    const [PageNumber, setPageNumber] = useState(1)
+    const [pageSize, setPageSize] = useState(defaultPageSize)
+
+    const swrKey = useMemo(
+      () => ["datatable", request, PageNumber, pageSize],
+      [request, PageNumber, pageSize]
+    )
+    const { data, isLoading } = useSWR(
+      swrKey,
+      () => request({ pageNumber: PageNumber, pageSize }),
+      {
+        keepPreviousData: false,
+        revalidateOnFocus: false,
+        dedupingInterval: 0,
+      }
+    )
+
+    useImperativeHandle(ref, () => ({
+      refresh: () => {
+        mutate(swrKey)
+      },
+    }))
+
+    const records = data?.records ?? []
+    const total = data?.total ?? 0
+    const pageCount = Math.max(Math.ceil(total / pageSize), 1)
+
+    const table = useReactTable({
+      data: records,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+      getPaginationRowModel: getPaginationRowModel(),
+      state: { pagination: { pageIndex: PageNumber - 1, pageSize } },
+      onPaginationChange: (updater) => {
+        const current = { pageIndex: PageNumber - 1, pageSize }
+        const next = typeof updater === "function" ? updater(current) : updater
+        if (next.pageIndex !== current.pageIndex)
+          setPageNumber(next.pageIndex + 1)
+        if (next.pageSize !== current.pageSize) {
+          setPageSize(next.pageSize)
+          setPageNumber(1)
+        }
+      },
+      pageCount,
+      manualPagination: true,
+    })
+
+    return (
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  加载中...
+                </TableCell>
+              </TableRow>
+            ) : records.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  暂无数据
+                </TableCell>
+              </TableRow>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+        <CommonPagination
+          currentPage={PageNumber}
+          total={total}
+          pageSize={pageSize}
+          onPageChange={setPageNumber}
+          onPageSizeChange={setPageSize}
+          showPageSizeSelector={true}
+        />
+      </div>
+    )
+  }
+)
+
+DataTable.displayName = "DataTable"
+
+
+===== EXAMPLE: pro-table-demo =====
+Title: ProTable Demo
+
+--- file: example/pro-table-demo.tsx ---
+"use client"
+
+import { ColumnDef } from "@tanstack/react-table"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { DataTable } from "@/registry/shadcn-pro/components/pro-table"
+
+interface DemoUser {
+  id: number
+  name: string
+  email: string
+  role: string
+  status: "active" | "inactive"
+}
+
+const generateMockUsers = (count: number, offset: number = 0): DemoUser[] => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: offset + i + 1,
+    name: `User ${offset + i + 1}`,
+    email: `user${offset + i + 1}@example.com`,
+    role: ["Admin", "Editor", "Viewer"][Math.floor(Math.random() * 3)],
+    status: Math.random() > 0.3 ? "active" : ("inactive" as const),
+  }))
+}
+
+const columns: ColumnDef<DemoUser>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    cell: ({ row }) => (
+      <div className="w-[60px] font-mono text-sm">{row.getValue("id")}</div>
+    ),
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("name")}</div>
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="text-muted-foreground text-sm">
+        {row.getValue("email")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => {
+      const role = row.getValue("role") as string
+      return (
+        <Badge variant={role === "Admin" ? "default" : "secondary"}>
+          {role}
+        </Badge>
+      )
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string
+      return (
+        <Badge variant={status === "active" ? "default" : "destructive"}>
+          {status}
+        </Badge>
+      )
+    },
+  },
+]
+
+// Mock async data fetcher
+const fetchUsers = async (params: {
+  page: number
+  size: number
+  search?: string
+}): Promise<{ data: DemoUser[]; total: number }> => {
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 500))
+
+  const allUsers = generateMockUsers(100)
+  let filteredUsers = allUsers
+
+  // Simple search filter
+  if (params.search) {
+    filteredUsers = allUsers.filter(
+      (user) =>
+        user.name.toLowerCase().includes(params.search!.toLowerCase()) ||
+        user.email.toLowerCase().includes(params.search!.toLowerCase())
+    )
+  }
+
+  const startIndex = (params.page - 1) * params.size
+  const endIndex = startIndex + params.size
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex)
+  console.log("paginatedUsers", paginatedUsers)
+
+  return {
+    data: paginatedUsers,
+    total: filteredUsers.length,
+  }
+}
+
+
+export default function ProTableDemo() {
+    const actionColumns: ColumnDef<DemoUser>[] = [
+        ...columns.slice(0, 3), // id, name, email
+        {
+            id: "actions",
+            header: "Actions",
+            cell: ({ row }) => (
+                <div className="flex gap-1">
+                    <Button variant="outline" size="sm">
+                        Edit
+                    </Button>
+                    <Button variant="destructive" size="sm">
+                        Delete
+                    </Button>
+                </div>
+            ),
+        },
+    ]
+
+    return (
+        <div className="w-full max-w-3xl">
+            <DataTable
+                columns={actionColumns}
+                request={fetchUsers}
+                defaultPageSize={3}
+                className="rounded-lg border"
+            />
+        </div>
+    )
+}
+
+
+
+===== COMPONENT: use-ai =====
+Title: use ai
+Description: A hook for ai
+
+--- file: shadcn-pro/hooks/use-ai.tsx ---
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { fetchEventSource } from "@microsoft/fetch-event-source"
+
+interface UseAIOptions {
+  url?: string
+  headers?: Record<string, string>
+  onMessage?: (data: string) => void
+  onError?: (error: Error) => void
+  autoStart?: boolean
+}
+
+export function useAI({
+  url = "/api/ai/stream",
+  headers = {},
+  onMessage,
+  onError,
+  autoStart = false,
+}: UseAIOptions = {}) {
+  const [text, setText] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+  const controllerRef = useRef<AbortController | null>(null)
+
+  const start = (customUrl?: string) => {
+    if (isLoading) return
+
+    const streamUrl = customUrl || url
+    if (!streamUrl) return
+
+    setIsLoading(true)
+    setError(null)
+    setText("")
+
+    const ctrl = new AbortController()
+    controllerRef.current = ctrl
+
+    fetchEventSource(streamUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        ...headers,
+      },
+      signal: ctrl.signal,
+      onmessage(event) {
+        setText((prev) => prev + event.data)
+        if (onMessage) onMessage(event.data)
+      },
+      onerror(err) {
+        const error = err instanceof Error ? err : new Error("Stream error")
+        setError(error)
+        setIsLoading(false)
+        if (onError) onError(error)
+      },
+      onclose() {
+        setIsLoading(false)
+      },
+    })
+  }
+
+  const stop = () => {
+    controllerRef.current?.abort()
+    setIsLoading(false)
+  }
+
+  const reset = () => {
+    stop()
+    setText("")
+    setError(null)
+  }
+
+  useEffect(() => {
+    if (autoStart && url) {
+      start()
+    }
+
+    return () => {
+      controllerRef.current?.abort()
+    }
+  }, [url, autoStart])
+
+  return {
+    text,
+    isLoading,
+    error,
+    start,
+    stop,
+    reset,
+  }
+}
+
+
+===== EXAMPLE: use-ai-hook-demo =====
+Title: use-ai-hook-demo
+
+--- file: example/use-ai-hook-demo.tsx ---
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { useAI } from "@/registry/shadcn-pro/hooks/use-ai"
+
+export default function AITestPage() {
+  const { text, isLoading, error, start, stop, reset } = useAI({
+    onMessage: (data) => console.log("Received:", data),
+    onError: (err) => console.error("Error:", err),
+  })
+
+  return (
+    <div className="mx-auto max-w-2xl space-y-6 p-6">
+      <h1 className="text-3xl font-bold">AI Hook Test</h1>
+
+      <div className="flex gap-2">
+        <Button onClick={() => start()} disabled={isLoading}>
+          {isLoading ? "Streaming..." : "Start AI Stream"}
+        </Button>
+        <Button onClick={stop} variant="outline" disabled={!isLoading}>
+          Stop
+        </Button>
+        <Button onClick={reset} variant="outline">
+          Reset
+        </Button>
+      </div>
+
+      {error && (
+        <div className="rounded border border-red-200 p-4 text-red-500">
+          Error: {error.message}
+        </div>
+      )}
+
+      <Card className="p-6">
+        <h2 className="mb-4 text-lg font-semibold">AI Response:</h2>
+        <div className="min-h-[200px] rounded border bg-gray-50 p-4 whitespace-pre-wrap">
+          {text ||
+            (isLoading ? "Loading..." : 'Click "Start AI Stream" to begin')}
+        </div>
+      </Card>
+
+      <div className="text-sm text-gray-600">
+        <p>Status: {isLoading ? "Streaming" : "Idle"}</p>
+        <p>Characters received: {text.length}</p>
+      </div>
+    </div>
+  )
+}
+
+
+
+===== COMPONENT: zoomable-image =====
+Title: zoomable image
+Description: A component for zoomable image.
+
+--- file: shadcn-pro/components/zoomable-image.tsx ---
+import Image from "next/image"
+import Zoom from "react-medium-image-zoom"
+
+import "react-medium-image-zoom/dist/styles.css"
+
+interface ZoomableImageProps {
+  src: string
+  alt?: string
+  width?: number
+  height?: number
+  useNextImage?: boolean
+  className?: string
+}
+
+export const ZoomableImage = ({
+  src,
+  alt = "",
+  width,
+  height,
+  useNextImage = true,
+  className,
+}: ZoomableImageProps) => {
+  const ImgComponent = useNextImage ? (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+    />
+  ) : (
+    <img
+      src={src}
+      width={width}
+      height={height}
+      alt={alt}
+      className={className}
+    />
+  )
+
+  return <Zoom>{ImgComponent}</Zoom>
+}
+
+
+===== EXAMPLE: zoomable-image-demo =====
+Title: Zoomable Image Demo
+
+--- file: example/zoomable-image-demo.tsx ---
+import { ZoomableImage } from "@/registry/shadcn-pro/components/zoomable-image"
+
+export default function ZoomableImageShowcase() {
+  return (
+    <>
+      <div className="w-full max-w-md">
+        <ZoomableImage
+          src="https://picsum.photos/400/300"
+          alt="Demo zoomable image"
+          width={400}
+          height={300}
+          className="w-full rounded-lg border shadow-sm"
+        />
+        <p className="text-muted-foreground mt-2 text-sm">
+          Click image to zoom
+        </p>
+      </div>
+    </>
+  )
+}

@@ -1,0 +1,104 @@
+---
+title: Code Block
+date: 2024-04-25
+description: A beautiful syntax highlighted code block component with macOS-style window design and copy functionality
+author: dillionverma
+published: true
+---
+
+<ComponentPreview name="code-block-demo" />
+
+The CodeBlock component provides a beautiful, syntax-highlighted code display with a macOS-style window design. It features colored window controls, language indicators, and one-click copy functionality powered by Prism React Renderer.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+
+    ```bash
+    npx shadcn-pro@latest add code-block
+    ```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+
+    <Steps>
+
+      <Step>Install the required dependencies:</Step>
+
+      ```bash
+      npm install prism-react-renderer lucide-react
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="code-block"/>
+
+      <Step>Update the import paths to match your project setup.</Step>
+
+    </Steps>
+
+  </TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { CodeBlock } from "@/components/ui/code-block"
+```
+
+```tsx showLineNumbers
+<CodeBlock language="javascript">
+  {`function greetUser(name) {
+  console.log(\`Hello, \${name}!\`);
+  return \`Welcome to our app, \${name}!\`;
+}
+
+// Usage
+const message = greetUser("Alice");`}
+</CodeBlock>
+```
+
+## Features
+
+- **macOS-style Design**: Beautiful window with red, yellow, and green control dots
+- **Syntax Highlighting**: Powered by Prism React Renderer with GitHub theme
+- **Copy Functionality**: One-click copy with visual feedback
+- **Language Display**: Shows the programming language in the window header
+- **Responsive**: Works seamlessly across different screen sizes
+- **Customizable**: Supports custom styling via className prop
+
+## Props
+
+### CodeBlock
+
+| Prop        | Type     | Default        | Description                                  |
+| ----------- | -------- | -------------- | -------------------------------------------- |
+| `children`  | `string` | `-`            | The code content to display as a string      |
+| `language`  | `string` | `"javascript"` | Programming language for syntax highlighting |
+| `className` | `string` | `-`            | Additional CSS classes to apply to component |
+
+## Supported Languages
+
+The component supports syntax highlighting for 100+ programming languages via Prism.js:
+
+- **Popular Languages**: JavaScript/TypeScript, Python, Java/Kotlin, C/C++/C#, Go/Rust, PHP/Ruby
+- **Web Technologies**: HTML/CSS/SCSS, JSON/YAML/XML
+- **Shell Scripts**: Bash/PowerShell, Shell
+- **Databases**: SQL, GraphQL
+- **And many more via Prism.js**
+
+## Design Features
+
+- **Window Controls**: macOS-style colored dots (red, yellow, green) in the header
+- **Language Badge**: Displays the current programming language in the header bar
+- **Copy Button**: One-click copy functionality with visual feedback
+- **Theme**: Uses GitHub light theme from Prism React Renderer
+- **Typography**: Monospace font with optimized line height for readability

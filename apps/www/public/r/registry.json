@@ -1,0 +1,198 @@
+{
+  "name": "magicui",
+  "homepage": "https://magicui.design",
+  "items": [
+    {
+      "name": "index",
+      "type": "registry:style",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "devDependencies": [
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [],
+      "cssVars": {}
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "code block",
+      "description": "A component for code block with syntax highlighting.",
+      "dependencies": [
+        "prism-react-renderer",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/shadcn-pro/components/code-block.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "use-ai",
+      "type": "registry:ui",
+      "title": "use ai",
+      "description": "A hook for ai",
+      "dependencies": [
+        "microsoft/fetch-event-source"
+      ],
+      "files": [
+        {
+          "path": "registry/shadcn-pro/hooks/use-ai.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "zoomable-image",
+      "type": "registry:ui",
+      "title": "zoomable image",
+      "description": "A component for zoomable image.",
+      "dependencies": [
+        "react-medium-image-zoom"
+      ],
+      "files": [
+        {
+          "path": "registry/shadcn-pro/components/zoomable-image.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "modal",
+      "type": "registry:ui",
+      "title": "modal",
+      "description": "A component for modal.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/shadcn-pro/components/modal.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pro-table",
+      "type": "registry:ui",
+      "title": "pro-table",
+      "description": "A component for pro-table.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/shadcn-pro/components/pro-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "code-block-demo",
+      "type": "registry:example",
+      "description": "An example of the code-block",
+      "dependencies": [
+        "prism-react-renderer",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@shadcn-pro/components/code-block"
+      ],
+      "files": [
+        {
+          "path": "registry/example/code-block-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "use-ai-hook-demo",
+      "type": "registry:example",
+      "description": "An hook for integrating AI capabilities into your app",
+      "dependencies": [
+        "microsoft/fetch-event-source"
+      ],
+      "registryDependencies": [
+        "@shadcn-pro/hook/use-ai"
+      ],
+      "files": [
+        {
+          "path": "registry/example/use-ai-hook-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "zoomable-image-demo",
+      "type": "registry:example",
+      "title": "Zoomable Image Demo",
+      "description": "Example showing an image that can be zoomed in and out.",
+      "registryDependencies": [
+        "@magicui/zoomable-image"
+      ],
+      "files": [
+        {
+          "path": "registry/example/zoomable-image-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "modal-demo",
+      "type": "registry:example",
+      "title": "Modal Demo",
+      "description": "Example showing a modal.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@shadcn-pro/components/modal"
+      ],
+      "files": [
+        {
+          "path": "registry/example/modal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "pro-table-demo",
+      "type": "registry:example",
+      "title": "ProTable Demo",
+      "description": "Example showing a pro table.",
+      "dependencies": [
+        "@tanstack/react-table"
+      ],
+      "registryDependencies": [
+        "@shadcn-pro/components/pro-table"
+      ],
+      "files": [
+        {
+          "path": "registry/example/pro-table-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "registry/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    }
+  ]
+}

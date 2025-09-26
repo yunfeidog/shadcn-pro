@@ -1,0 +1,26 @@
+# Magic UI
+
+> Beautifully designed landing page components built with React & Tailwind CSS.
+
+This file provides LLM-friendly entry points to documentation and examples.
+
+## Components
+
+- [code block](https://magicui.design/docs/components/code-block): A component for code block with syntax highlighting.
+- [modal](https://magicui.design/docs/components/modal): A component for modal.
+- [pro-table](https://magicui.design/docs/components/pro-table): A component for pro-table.
+- [use ai](https://magicui.design/docs/components/use-ai): A hook for ai
+- [zoomable image](https://magicui.design/docs/components/zoomable-image): A component for zoomable image.
+
+## Examples
+
+- [code-block-demo](https://github.com/magicuidesign/magicui/blob/main/example/code-block-demo.tsx): Example usage
+- [use-ai-hook-demo](https://github.com/magicuidesign/magicui/blob/main/example/use-ai-hook-demo.tsx): Example usage
+- [Zoomable Image Demo](https://github.com/magicuidesign/magicui/blob/main/example/zoomable-image-demo.tsx): Example usage
+- [Modal Demo](https://github.com/magicuidesign/magicui/blob/main/example/modal-demo.tsx): Example usage
+- [ProTable Demo](https://github.com/magicuidesign/magicui/blob/main/example/pro-table-demo.tsx): Example usage
+
+## Optional
+
+- [Repository](https://github.com/magicuidesign/magicui): Source code and issues
+- [Sitemap](https://magicui.design/sitemap.xml): Indexable pages

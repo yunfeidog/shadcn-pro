@@ -1,70 +1,42 @@
-# shadcn-pro
-
-🚀 A collection of production-ready, enhanced components built on top of shadcn/ui. shadcn-pro extends the original library with enterprise-level features, prebuilt patterns, and ready-to-use UI solutions — install with a single command.
-
-> [!IMPORTANT]  
-> This template uses Tailwind v4. For Tailwind v3, see [registry-template-v3](https://github.com/shadcn-ui/registry-template-v3).
-
-## Getting Started
-
-shadcn-pro is a collection of enhanced components built on top of shadcn/ui, providing enterprise-level features and ready-to-use UI solutions.
-
-- The registry uses a `registry.json` file to define components and their files.
-- The `shadcn build` command is used to build the registry.
-- Registry items are served as static files under `public/r/[name].json`.
-- All registry items are compatible with the `shadcn` CLI.
-- Includes v0 integration using the `Open in v0` API.
+<img alt="Magic UI - UI Library for Design Engineers" src="https://cdn.magicui.design/bento-grid.gif" width="100%">
+<h3 align="center">Magic UI</h3>
+<p align="center">
+    UI Library for Design Engineers
+</p>
+<div align="center">
+  <a href="https://github.com/magicuidesign/magicui/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/magicuidesign/magicui"></a>
+  <a href="https://twitter.com/magicuidesign"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/magicuidesign"></a>
+  <a href="https://github.com/magicuidesign/magicui/blob/main/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a href="https://discord.com/invite/87p2vpsat5"><img alt="Discord" src="https://img.shields.io/discord/1151315619246002176"></a>
+  
+</div>
 
 ## Documentation
 
-Visit the [shadcn documentation](https://ui.shadcn.com/docs/registry) to view the full documentation.
+Visit https://magicui.design/docs to view the documentation.
 
-### Online Preview
+## Contributing
 
-You can preview components online directly in your browser. Our documentation provides live examples of all components, making it easy to see how they work before installing them in your project.
+Visit our [contributing guide](https://github.com/magicuidesign/magicui/blob/main/CONTRIBUTING.md) to learn how to contribute. It only takes ~5 minutes to add your own!
 
-### Installation
+## Community
 
-Components can be installed in two ways:
+Have questions, comments or feedback? [Join our discord](http://magicui.design/discord).
 
-1. **Using npx command**: Run `npx shadcn-pro@latest add component-name` to install individual components
-2. **Copy and paste**: Copy component code directly from our documentation and paste it into your project
+## Authors
 
-### Building the Registry
+<a href="https://github.com/magicuidesign/magicui/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=magicuidesign/magicui" />
+</a>
 
-To build the component registry, run the following command:
+## Stats
 
-```bash
-npm run registry:build
-```
+![Alt](https://repobeats.axiom.co/api/embed/38b63c4514a8a4cd7d1307985af2889c78d67bcc.svg "Repobeats analytics image")
 
-This command generates static JSON files for each component in the `public/r/` directory.
+## Star History
 
-### Accessing Component JSON
+[![Star History Chart](https://api.star-history.com/svg?repos=magicuidesign/magicui&type=Date)](https://www.star-history.com/#magicuidesign/magicui&Date)
 
-After building the registry, you can access the modal component JSON at:
-[http://localhost:3000/r/modal.json](http://localhost:3000/r/modal.json)
+## License
 
-Each component in the registry is served as a static JSON file that contains all the necessary information for the shadcn CLI to install the component.
-
-### Installing with npx
-
-To install the modal component using npx, run:
-
-```bash
-npx shadcn-pro@latest add modal
-```
-
-This will download and install the modal component and its dependencies into your project.
-
-## Future Plans
-
-Here are the components and features we plan to implement:
-
-- [x] **ProTable**: Encapsulate request, pagination, custom columns, and other functions
-- [x] **Command Modal**: Dynamic invocation without JSX wrapper
-- [x] **Image Component**: Support preview functionality
-- [x] **Markdown Component**: Support rendering Markdown content && mdx
-- [x] **AI Hook**: For example `const { text } = useAI()`
-- [x] **CodeBlock Component**: Support syntax highlighting and copy functionality
-- [ ] **Documentation Introduction**: Online preview of component content, supporting npx or copy installation
+Licensed under the [MIT license](https://github.com/magicuidesign/magicui/blob/main/LICENSE.md).

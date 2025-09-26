@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-ai",
+  "type": "registry:ui",
+  "title": "use ai",
+  "description": "A hook for ai",
+  "dependencies": [
+    "microsoft/fetch-event-source"
+  ],
+  "files": [
+    {
+      "path": "registry/shadcn-pro/hooks/use-ai.tsx",
+      "content": "\"use client\"\n\nimport { useEffect, useRef, useState } from \"react\"\nimport { fetchEventSource } from \"@microsoft/fetch-event-source\"\n\ninterface UseAIOptions {\n  url?: string\n  headers?: Record<string, string>\n  onMessage?: (data: string) => void\n  onError?: (error: Error) => void\n  autoStart?: boolean\n}\n\nexport function useAI({\n  url = \"/api/ai/stream\",\n  headers = {},\n  onMessage,\n  onError,\n  autoStart = false,\n}: UseAIOptions = {}) {\n  const [text, setText] = useState(\"\")\n  const [isLoading, setIsLoading] = useState(false)\n  const [error, setError] = useState<Error | null>(null)\n  const controllerRef = useRef<AbortController | null>(null)\n\n  const start = (customUrl?: string) => {\n    if (isLoading) return\n\n    const streamUrl = customUrl || url\n    if (!streamUrl) return\n\n    setIsLoading(true)\n    setError(null)\n    setText(\"\")\n\n    const ctrl = new AbortController()\n    controllerRef.current = ctrl\n\n    fetchEventSource(streamUrl, {\n      method: \"GET\",\n      headers: {\n        \"Content-Type\": \"text/event-stream\",\n        \"Cache-Control\": \"no-cache\",\n        ...headers,\n      },\n      signal: ctrl.signal,\n      onmessage(event) {\n        setText((prev) => prev + event.data)\n        if (onMessage) onMessage(event.data)\n      },\n      onerror(err) {\n        const error = err instanceof Error ? err : new Error(\"Stream error\")\n        setError(error)\n        setIsLoading(false)\n        if (onError) onError(error)\n      },\n      onclose() {\n        setIsLoading(false)\n      },\n    })\n  }\n\n  const stop = () => {\n    controllerRef.current?.abort()\n    setIsLoading(false)\n  }\n\n  const reset = () => {\n    stop()\n    setText(\"\")\n    setError(null)\n  }\n\n  useEffect(() => {\n    if (autoStart && url) {\n      start()\n    }\n\n    return () => {\n      controllerRef.current?.abort()\n    }\n  }, [url, autoStart])\n\n  return {\n    text,\n    isLoading,\n    error,\n    start,\n    stop,\n    reset,\n  }\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

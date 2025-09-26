@@ -1,0 +1,259 @@
+---
+title: use-ai
+date: 2024-04-25
+description: A React hook for streaming AI responses with built-in loading and error states
+author: dillionverma
+published: true
+---
+
+<ComponentPreview name="use-ai-hook-demo" />
+
+A powerful React hook for handling streaming AI responses with built-in state management, loading indicators, and error handling. Perfect for building chat interfaces and AI-powered applications.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn-pro@latest add use-ai
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the required dependencies:</Step>
+
+```bash
+npm install @microsoft/fetch-event-source
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="use-ai" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { useAi } from "@/hooks/use-ai"
+
+function ChatComponent() {
+  const { messages, input, setInput, submit, isLoading, error } = useAi({
+    endpoint: "/api/chat",
+  })
+
+  return (
+    <div className="flex flex-col space-y-4">
+      <div className="messages space-y-2">
+        {messages.map((message, index) => (
+          <div key={index} className="bg-muted rounded-lg p-3">
+            {message}
+          </div>
+        ))}
+      </div>
+
+      <form onSubmit={submit} className="flex gap-2">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1 rounded-md border p-2"
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="bg-primary text-primary-foreground rounded-md px-4 py-2 disabled:opacity-50"
+        >
+          {isLoading ? "Sending..." : "Send"}
+        </button>
+      </form>
+
+      {error && (
+        <div className="text-destructive bg-destructive/10 rounded-md p-3 text-sm">
+          Error: {error}
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+## Features
+
+- **🔄 Streaming Support**: Real-time streaming responses with Server-Sent Events
+- **📊 State Management**: Built-in loading, error, and message states
+- **🛡️ Error Handling**: Automatic error detection and retry logic
+- **⚡ TypeScript**: Full type safety with comprehensive type definitions
+- **🎛️ Customizable**: Flexible configuration with custom headers and callbacks
+- **📱 Responsive**: Works seamlessly across different devices and screen sizes
+
+## Props
+
+### useAi
+
+| Prop              | Type                        | Default | Description                          |
+| ----------------- | --------------------------- | ------- | ------------------------------------ |
+| `endpoint`        | `string`                    | `-`     | API endpoint for streaming responses |
+| `initialMessages` | `string[]`                  | `[]`    | Initial messages to display          |
+| `onMessage`       | `(message: string) => void` | `-`     | Callback when new message received   |
+| `onError`         | `(error: string) => void`   | `-`     | Callback when error occurs           |
+| `headers`         | `Record<string, string>`    | `-`     | Additional request headers           |
+
+### Return Values
+
+| Property    | Type                               | Description                |
+| ----------- | ---------------------------------- | -------------------------- |
+| `messages`  | `string[]`                         | Array of messages          |
+| `input`     | `string`                           | Current input value        |
+| `setInput`  | `(value: string) => void`          | Function to update input   |
+| `submit`    | `(e?: FormEvent) => Promise<void>` | Function to submit message |
+| `isLoading` | `boolean`                          | Loading state              |
+| `error`     | `string \| null`                   | Error message if any       |
+| `reset`     | `() => void`                       | Function to reset state    |
+
+## Examples
+
+### Basic Chat Interface
+
+<ComponentPreview name="use-ai-basic" />
+
+### With Custom Headers
+
+```tsx showLineNumbers
+const { messages, submit } = useAi({
+  endpoint: "/api/chat",
+  headers: {
+    Authorization: "Bearer your-token",
+    "Custom-Header": "value",
+  },
+})
+```
+
+### With Event Callbacks
+
+```tsx showLineNumbers
+const { messages, submit } = useAi({
+  endpoint: "/api/chat",
+  onMessage: (message) => {
+    console.log("New message received:", message)
+    // Custom logic for each message
+  },
+  onError: (error) => {
+    console.error("AI Error:", error)
+    // Custom error handling
+  },
+})
+```
+
+### Advanced Implementation
+
+```tsx showLineNumbers
+import { useState } from "react"
+
+import { useAi } from "@/hooks/use-ai"
+
+function AdvancedChatComponent() {
+  const [isTyping, setIsTyping] = useState(false)
+
+  const { messages, input, setInput, submit, isLoading, error, reset } = useAi({
+    endpoint: "/api/chat",
+    initialMessages: ["Welcome! How can I help you today?"],
+    onMessage: (message) => {
+      setIsTyping(false)
+    },
+    onError: (error) => {
+      setIsTyping(false)
+      console.error("Chat error:", error)
+    },
+  })
+
+  const handleSubmit = async (e) => {
+    setIsTyping(true)
+    await submit(e)
+  }
+
+  return (
+    <div className="mx-auto max-w-2xl p-4">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-semibold">AI Assistant</h2>
+        <button
+          onClick={reset}
+          className="text-muted-foreground hover:text-foreground text-sm"
+        >
+          Clear Chat
+        </button>
+      </div>
+
+      <div className="mb-4 max-h-96 space-y-4 overflow-y-auto">
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`rounded-lg p-3 ${
+              index % 2 === 0
+                ? "bg-muted ml-auto max-w-[80%]"
+                : "bg-primary text-primary-foreground mr-auto max-w-[80%]"
+            }`}
+          >
+            {message}
+          </div>
+        ))}
+
+        {isTyping && (
+          <div className="bg-muted mr-auto max-w-[80%] rounded-lg p-3">
+            <div className="flex space-x-1">
+              <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500"></div>
+              <div
+                className="h-2 w-2 animate-bounce rounded-full bg-gray-500"
+                style={{ animationDelay: "0.1s" }}
+              ></div>
+              <div
+                className="h-2 w-2 animate-bounce rounded-full bg-gray-500"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          className="focus:ring-primary flex-1 rounded-md border p-3 focus:ring-2 focus:outline-none"
+          disabled={isLoading}
+        />
+        <button
+          type="submit"
+          disabled={isLoading || !input.trim()}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-3 transition-colors disabled:opacity-50"
+        >
+          Send
+        </button>
+      </form>
+
+      {error && (
+        <div className="text-destructive bg-destructive/10 mt-4 rounded-md p-3 text-sm">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+    </div>
+  )
+}
+```

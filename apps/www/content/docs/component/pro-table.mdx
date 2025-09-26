@@ -1,0 +1,389 @@
+---
+title: Pro Table
+date: 2024-04-25
+description: A powerful data table with server-side pagination using TanStack Table and SWR
+author: dillionverma
+published: true
+---
+
+<ComponentPreview name="pro-table-demo" />
+
+A comprehensive data table component with enterprise-grade features including server-side pagination, search, sorting, and filtering. Built with TanStack Table and SWR for optimal performance and developer experience.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn-pro@latest add pro-table
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the required dependencies:</Step>
+
+```bash
+npm install @tanstack/react-table swr lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="pro-table" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { ColumnDef } from "@tanstack/react-table"
+
+import { ProTable } from "@/components/ui/pro-table"
+```
+
+```tsx showLineNumbers
+// Define your data type
+interface User {
+  id: number
+  name: string
+  email: string
+  status: "active" | "inactive"
+  createdAt: string
+}
+
+// Define table columns
+const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+    size: 80,
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("name")}</div>
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="text-muted-foreground">{row.getValue("email")}</div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string
+      return (
+        <Badge variant={status === "active" ? "default" : "secondary"}>
+          {status}
+        </Badge>
+      )
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const date = row.getValue("createdAt") as string
+      return (
+        <div className="text-muted-foreground text-sm">
+          {new Date(date).toLocaleDateString()}
+        </div>
+      )
+    },
+  },
+]
+
+// Create data fetcher function
+const fetchUsers = async (params: {
+  page: number
+  size: number
+  search?: string
+  sortBy?: string
+  sortOrder?: "asc" | "desc"
+}) => {
+  const searchParams = new URLSearchParams({
+    page: params.page.toString(),
+    size: params.size.toString(),
+    ...(params.search && { search: params.search }),
+    ...(params.sortBy && { sortBy: params.sortBy }),
+    ...(params.sortOrder && { sortOrder: params.sortOrder }),
+  })
+
+  const response = await fetch(`/api/users?${searchParams}`)
+  if (!response.ok) {
+    throw new Error("Failed to fetch users")
+  }
+
+  return await response.json() // { data: User[], total: number }
+}
+
+// Use the component
+function UsersPage() {
+  return (
+    <div className="container mx-auto py-8">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold">Users</h1>
+        <p className="text-muted-foreground">
+          Manage your users with advanced filtering and search
+        </p>
+      </div>
+
+      <ProTable
+        columns={columns}
+        fetchData={fetchUsers}
+        defaultPageSize={10}
+        searchable
+        searchPlaceholder="Search users..."
+      />
+    </div>
+  )
+}
+```
+
+## Features
+
+- **📊 Server-side Pagination**: Efficiently handles large datasets with server-side pagination and loading states
+- **🔍 Advanced Search**: Built-in search functionality with debounced queries for optimal performance
+- **📈 Column Sorting**: Click column headers to sort data with visual indicators and server communication
+- **💾 SWR Integration**: Automatic caching, revalidation, and background updates with SWR
+- **📱 Responsive Design**: Mobile-friendly layout that adapts to different screen sizes
+- **⚡ TypeScript Support**: Full type safety with comprehensive TypeScript definitions
+- **🎨 Customizable**: Extensive customization options for styling and behavior
+- **♿ Accessible**: Built with accessibility in mind, keyboard navigation and screen reader support
+
+## Examples
+
+### Basic Table
+
+<ComponentPreview name="pro-table-basic" />
+
+### With Search and Sorting
+
+<ComponentPreview name="pro-table-search" />
+
+### Custom Cell Rendering
+
+<ComponentPreview name="pro-table-custom" />
+
+## Props
+
+### ProTable
+
+| Prop                | Type                                              | Default       | Description                                |
+| ------------------- | ------------------------------------------------- | ------------- | ------------------------------------------ |
+| `columns`           | `ColumnDef<T>[]`                                  | `-`           | Table column definitions                   |
+| `fetchData`         | `(params) => Promise<{data: T[], total: number}>` | `-`           | Data fetching function                     |
+| `defaultPageSize`   | `number`                                          | `10`          | Default number of rows per page            |
+| `searchable`        | `boolean`                                         | `false`       | Enable search functionality                |
+| `searchPlaceholder` | `string`                                          | `"Search..."` | Search input placeholder text              |
+| `showPagination`    | `boolean`                                         | `true`        | Show pagination controls                   |
+| `className`         | `string`                                          | `-`           | Additional CSS classes for table container |
+| `enableSorting`     | `boolean`                                         | `true`        | Enable column sorting functionality        |
+| `enableMultiSort`   | `boolean`                                         | `false`       | Allow sorting by multiple columns          |
+| `loadingComponent`  | `React.ReactNode`                                 | `-`           | Custom loading component                   |
+| `emptyComponent`    | `React.ReactNode`                                 | `-`           | Custom empty state component               |
+
+## API Requirements
+
+### Data Fetcher Function
+
+Your fetch function must return data in this specific format:
+
+```tsx showLineNumbers
+interface FetchResult<T> {
+  data: T[] // Array of row data
+  total: number // Total number of items (for pagination)
+}
+
+interface FetchParams {
+  page: number // Current page (1-based)
+  size: number // Page size
+  search?: string // Search query
+  sortBy?: string // Column to sort by
+  sortOrder?: "asc" | "desc" // Sort direction
+}
+
+const fetchData = async (params: FetchParams): Promise<FetchResult<T>> => {
+  // Your API call logic here
+  const response = await fetch(`/api/data?${new URLSearchParams(params)}`)
+  return await response.json()
+}
+```
+
+### Server-side Implementation
+
+Example API endpoint implementation:
+
+```tsx showLineNumbers
+// pages/api/users.ts (Next.js API route)
+import { NextApiRequest, NextApiResponse } from "next"
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const {
+    page = "1",
+    size = "10",
+    search = "",
+    sortBy = "id",
+    sortOrder = "asc",
+  } = req.query
+
+  try {
+    // Your database query logic
+    const offset = (parseInt(page as string) - 1) * parseInt(size as string)
+    const limit = parseInt(size as string)
+
+    const whereClause = search
+      ? `WHERE name ILIKE '%${search}%' OR email ILIKE '%${search}%'`
+      : ""
+
+    const orderClause = `ORDER BY ${sortBy} ${sortOrder.toUpperCase()}`
+
+    const [users, totalCount] = await Promise.all([
+      db.query(`
+        SELECT * FROM users
+        ${whereClause}
+        ${orderClause}
+        LIMIT ${limit} OFFSET ${offset}
+      `),
+      db.query(`SELECT COUNT(*) FROM users ${whereClause}`),
+    ])
+
+    res.status(200).json({
+      data: users.rows,
+      total: parseInt(totalCount.rows[0].count),
+    })
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch users" })
+  }
+}
+```
+
+## Advanced Usage
+
+### Custom Cell Rendering
+
+```tsx showLineNumbers
+const columns: ColumnDef<User>[] = [
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const user = row.original
+      return (
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleEdit(user.id)}
+            className="rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => handleDelete(user.id)}
+            className="rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700"
+          >
+            Delete
+          </button>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "avatar",
+    header: "Avatar",
+    cell: ({ row }) => {
+      const avatarUrl = row.getValue("avatar") as string
+      const name = row.getValue("name") as string
+      return (
+        <div className="flex items-center gap-2">
+          <img
+            src={avatarUrl}
+            alt={name}
+            className="h-8 w-8 rounded-full object-cover"
+          />
+          <span className="font-medium">{name}</span>
+        </div>
+      )
+    },
+  },
+]
+```
+
+### Loading and Empty States
+
+```tsx showLineNumbers
+<ProTable
+  columns={columns}
+  fetchData={fetchUsers}
+  loadingComponent={
+    <div className="flex items-center justify-center py-8">
+      <div className="flex items-center gap-2">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        <span>Loading users...</span>
+      </div>
+    </div>
+  }
+  emptyComponent={
+    <div className="flex flex-col items-center justify-center py-8 text-center">
+      <Users className="text-muted-foreground h-12 w-12" />
+      <h3 className="mt-2 text-lg font-semibold">No users found</h3>
+      <p className="text-muted-foreground">
+        Try adjusting your search or filters
+      </p>
+    </div>
+  }
+/>
+```
+
+### Real-time Updates
+
+```tsx showLineNumbers
+import { mutate } from "swr"
+
+function UsersPage() {
+  const handleUserUpdate = async (userId: number, data: Partial<User>) => {
+    try {
+      await fetch(`/api/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+
+      // Revalidate the table data
+      mutate((key) => typeof key === "string" && key.startsWith("/api/users"))
+    } catch (error) {
+      console.error("Failed to update user:", error)
+    }
+  }
+
+  return (
+    <ProTable
+      columns={columns}
+      fetchData={fetchUsers}
+      // Table will automatically revalidate when data changes
+    />
+  )
+}
+```
