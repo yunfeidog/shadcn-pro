@@ -6,7 +6,6 @@ import { fontVariables } from "@/lib/fonts"
 import { absoluteUrl, cn, constructMetadata } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { Analytics } from "@/components/analytics"
 import { PHProvider } from "@/components/posthog-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -47,7 +46,6 @@ export default function RootLayout({
               <TooltipProvider>
                 {children}
                 <Toaster position="top-center" richColors toastOptions={{}} />
-                <Analytics />
               </TooltipProvider>
             </ThemeProvider>
           </PHProvider>

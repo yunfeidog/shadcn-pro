@@ -40,32 +40,32 @@ export const docsConfig: DocsConfig = {
       ],
     },
     {
-      title: "component",
+      title: "components",
       items: [
         {
           title: "Code Block",
-          href: `/docs/component/code-block`,
+          href: `/docs/components/code-block`,
           items: [],
         },
         {
           title: "Zoomable Image",
-          href: `/docs/component/zoomable-image`,
+          href: `/docs/components/zoomable-image`,
           items: [],
         },
         {
           title: "Modal",
-          href: `/docs/component/modal`,
+          href: `/docs/components/modal`,
           items: [],
         },
         {
           title: "ProTable",
-          href: `/docs/component/pro-table`,
+          href: `/docs/components/pro-table`,
           items: [],
         },
       ],
     },
     {
-      title: "Hooks",
+      title: "hooks",
       items: [
         {
           title: "use ai",

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "modal-demo",
+  "type": "registry:example",
+  "title": "Modal Demo",
+  "description": "Example showing a modal.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@shadcn-pro/components/modal"
+  ],
+  "files": [
+    {
+      "path": "registry/example/modal-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Modal } from \"@/registry/shadcn-pro/components/modal\"\n\nexport default function ModalTestPage() {\n  const showInfoModal = () => {\n    Modal.info({\n      title: \"Information\",\n      content: (\n        <div>\n          <p>This is an information message.</p>\n          <p>Some additional content here.</p>\n        </div>\n      ),\n      onOk() {\n        console.log(\"Info modal closed\")\n      },\n    })\n  }\n\n  const showSuccessModal = () => {\n    Modal.success({\n      title: \"Success\",\n      content: \"Operation completed successfully!\",\n    })\n  }\n\n  const showErrorModal = () => {\n    Modal.error({\n      title: \"Error occurred\",\n      content: \"Failed to perform the operation. Please try again.\",\n    })\n  }\n\n  const showWarningModal = () => {\n    Modal.warning({\n      title: \"Warning\",\n      content: \"This is a warning message that you should pay attention to.\",\n    })\n  }\n\n  const showConfirmModal = () => {\n    Modal.confirm({\n      title: \"Confirm action\",\n      content: \"Are you sure you want to perform this action?\",\n      onOk() {\n        console.log(\"Confirmed\")\n      },\n      onCancel() {\n        console.log(\"Cancelled\")\n      },\n    })\n  }\n\n  return (\n    <div className=\"mx-auto flex max-w-3xl flex-col gap-8 px-4 py-8\">\n      <header className=\"flex flex-col gap-1\">\n        <h1 className=\"text-3xl font-bold tracking-tight\">\n          Command Modal Test\n        </h1>\n        <p className=\"text-muted-foreground\">\n          Test page for the command modal component\n        </p>\n      </header>\n      <main className=\"flex flex-col gap-4\">\n        <div className=\"flex flex-wrap gap-4\">\n          <button\n            className=\"rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700\"\n            onClick={showInfoModal}\n          >\n            Show Info Modal\n          </button>\n          <button\n            className=\"rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700\"\n            onClick={showSuccessModal}\n          >\n            Show Success Modal\n          </button>\n          <button\n            className=\"rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700\"\n            onClick={showErrorModal}\n          >\n            Show Error Modal\n          </button>\n          <button\n            className=\"rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700\"\n            onClick={showWarningModal}\n          >\n            Show Warning Modal\n          </button>\n          <button\n            className=\"rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700\"\n            onClick={showConfirmModal}\n          >\n            Show Confirm Modal\n          </button>\n        </div>\n      </main>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

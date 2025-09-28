@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/registry/shadcn-pro/components/code-block"
 
 export default function CodeBlockDemo() {
-  const pythonCode = `def quicksort(arr):
+  const code = `def quicksort(arr):
     if len(arr) <= 1:
         return arr
     pivot = arr[len(arr) // 2]
@@ -11,9 +11,7 @@ export default function CodeBlockDemo() {
     return quicksort(left) + middle + quicksort(right)`
   return (
     <>
-      <div className="space-y-8">
-        <CodeBlock language="python">{pythonCode}</CodeBlock>
-      </div>
+      <CodeBlock language="python">{code}</CodeBlock>
     </>
   )
 }

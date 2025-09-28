@@ -1,7 +1,6 @@
 import { docsConfig } from "@/config/docs"
 import { Separator } from "@/components/ui/separator"
 import { CommandMenu } from "@/components/command-menu"
-import { DiscordLink } from "@/components/discord-link"
 import { GitHubLink } from "@/components/github-link"
 import { LogoButton } from "@/components/logo-button"
 import { MainNav } from "@/components/main-nav"

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code-block-demo",
+  "type": "registry:example",
+  "description": "An example of the code-block",
+  "dependencies": [
+    "prism-react-renderer",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "@shadcn-pro/components/code-block"
+  ],
+  "files": [
+    {
+      "path": "registry/example/code-block-demo.tsx",
+      "content": "import { CodeBlock } from \"@/registry/shadcn-pro/components/code-block\"\n\nexport default function CodeBlockDemo() {\n  const code = `def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)`\n  return (\n    <>\n      <CodeBlock language=\"python\">{code}</CodeBlock>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}

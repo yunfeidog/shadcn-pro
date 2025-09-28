@@ -25,7 +25,7 @@ export function CodeBlock({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error("复制失败:", err)
+      console.error("copy error:", err)
     }
   }
 
@@ -36,7 +36,7 @@ export function CodeBlock({
         className
       )}
     >
-      {/* 顶部栏 */}
+      {/* top */}
       <div className="bg-muted/30 flex items-center justify-between border-b px-4 py-1">
         <div className="flex items-center gap-1">
           <div className="flex gap-1.5">
@@ -55,18 +55,18 @@ export function CodeBlock({
           {copied ? (
             <>
               <Check className="h-4 w-4" />
-              已复制
+              copied
             </>
           ) : (
             <>
               <Copy className="h-4 w-4" />
-              复制
+              copy
             </>
           )}
         </button>
       </div>
 
-      {/* 代码高亮 */}
+      {/* code highlight */}
       <Highlight
         code={children.trim()}
         language={language}

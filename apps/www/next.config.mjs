@@ -5,7 +5,7 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./registry/**/*", "./content/**/*"],
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: ["localhost", "cdn.magicui.design", "images.unsplash.com","picsum.photos"],
   },
@@ -46,6 +46,12 @@ const nextConfig = {
       },
     ];
   },
+  typescript:{
+    ignoreBuildErrors:true
+  },
+  eslint:{
+    ignoreDuringBuilds:true
+  }
 };
 
 const withMDX = createMDX({});

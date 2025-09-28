@@ -4,7 +4,7 @@ import { source } from "@/lib/source"
 
 export function ComponentsList() {
   const components = source.pageTree.children.find(
-    (page) => page.$id === "component"
+    (page) => page.$id === "components"
   )
 
   if (components?.type !== "folder") {

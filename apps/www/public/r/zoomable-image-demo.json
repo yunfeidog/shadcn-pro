@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "zoomable-image-demo",
+  "type": "registry:example",
+  "title": "Zoomable Image Demo",
+  "description": "Example showing an image that can be zoomed in and out.",
+  "registryDependencies": [
+    "@magicui/zoomable-image"
+  ],
+  "files": [
+    {
+      "path": "registry/example/zoomable-image-demo.tsx",
+      "content": "import { ZoomableImage } from \"@/registry/shadcn-pro/components/zoomable-image\"\n\nexport default function ZoomableImageShowcase() {\n  return (\n    <>\n      <div className=\"w-full max-w-md\">\n        <ZoomableImage\n          src=\"https://picsum.photos/400/300\"\n          alt=\"Demo zoomable image\"\n          width={400}\n          height={300}\n          className=\"w-full rounded-lg border shadow-sm\"\n        />\n        <p className=\"text-muted-foreground mt-2 text-sm\">\n          Click image to zoom\n        </p>\n      </div>\n    </>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ]
+}
