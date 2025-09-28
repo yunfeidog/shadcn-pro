@@ -1,4 +1,4 @@
-# Magic UI
+# shadcn-pro
 
 > Beautifully designed landing page components built with React & Tailwind CSS.
 

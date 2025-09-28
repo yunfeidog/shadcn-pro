@@ -13,7 +13,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
 
 export const metadata: Metadata = constructMetadata({
-  title: "Magic UI",
+  title: "shadcn-pro",
   description:
     "Beautiful UI components and templates to make your landing page look stunning.",
   image: absoluteUrl("/og"),

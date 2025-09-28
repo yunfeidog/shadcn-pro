@@ -10,7 +10,7 @@ Once done, open a pull request from your forked repo to the main repo [here](htt
 
 ### Fork and Clone the Repository
 
-1. **Fork this repository**  
+1. **Fork this repository**
    Click [here](https://github.com/magicuidesign/magicui/fork) to fork the repository.
 
 2. **Clone your forked repository to your local machine**
@@ -105,7 +105,7 @@ Create an MDX file for documenting your component in `content/docs/components/ex
 ---
 title: Example Component
 date: 2024-06-01
-description: Example component for Magic UI
+description: Example component for shadcn-pro
 author: magicui
 published: true
 ---

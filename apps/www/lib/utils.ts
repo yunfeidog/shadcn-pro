@@ -70,8 +70,8 @@ export function absoluteUrl(path: string) {
 }
 
 export function constructMetadata({
-  title = "Magic UI - Modern React + Tailwind CSS components & Templates",
-  description = "Magic UI is a curated collection of the best landing page components built using React + Tailwind CSS + Motion",
+  title = "shadcn-pro - Modern React + Tailwind CSS components & Templates",
+  description = "shadcn-pro is a curated collection of the best landing page components built using React + Tailwind CSS + Motion",
   image = absoluteUrl("/og"),
   ...props
 }: {

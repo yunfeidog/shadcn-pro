@@ -55,7 +55,7 @@ export async function generateMetadata({
   ogUrl.searchParams.set("description", doc.description ?? "")
 
   return {
-    title: `${doc.title} | Magic UI`,
+    title: `${doc.title} | shadcn-pro`,
     description: doc.description,
     openGraph: {
       title: doc.title,

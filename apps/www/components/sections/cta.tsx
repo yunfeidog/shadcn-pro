@@ -15,7 +15,7 @@ export function CTASection() {
             <h1 className="text-3xl font-bold lg:text-4xl">
               Looking for templates instead?
             </h1>
-            <p className="mt-2">Check out Magic UI Pro</p>
+            <p className="mt-2">Check out shadcn-pro Pro</p>
             <a
               href="https://pro.magicui.design/"
               className={cn(
@@ -26,7 +26,7 @@ export function CTASection() {
                 "group mt-4 rounded-[2rem] px-6"
               )}
             >
-              Get Magic UI Pro
+              Get shadcn-pro Pro
               <ChevronRight className="ml-1 size-4 transition-all duration-300 ease-out group-hover:translate-x-1" />
             </a>
           </div>

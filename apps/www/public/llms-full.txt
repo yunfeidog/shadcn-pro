@@ -135,6 +135,7 @@ Description: A component for modal.
 
 --- file: shadcn-pro/components/modal.tsx ---
 "use client"
+
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 
@@ -707,36 +708,35 @@ const fetchUsers = async (params: {
   }
 }
 
-
 export default function ProTableDemo() {
-    const actionColumns: ColumnDef<DemoUser>[] = [
-        ...columns.slice(0, 3), // id, name, email
-        {
-            id: "actions",
-            header: "Actions",
-            cell: ({ row }) => (
-                <div className="flex gap-1">
-                    <Button variant="outline" size="sm">
-                        Edit
-                    </Button>
-                    <Button variant="destructive" size="sm">
-                        Delete
-                    </Button>
-                </div>
-            ),
-        },
-    ]
-
-    return (
-        <div className="w-full max-w-3xl">
-            <DataTable
-                columns={actionColumns}
-                request={fetchUsers}
-                defaultPageSize={3}
-                className="rounded-lg border"
-            />
+  const actionColumns: ColumnDef<DemoUser>[] = [
+    ...columns.slice(0, 3), // id, name, email
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <div className="flex gap-1">
+          <Button variant="outline" size="sm">
+            Edit
+          </Button>
+          <Button variant="destructive" size="sm">
+            Delete
+          </Button>
         </div>
-    )
+      ),
+    },
+  ]
+
+  return (
+    <div className="w-full max-w-3xl">
+      <DataTable
+        columns={actionColumns}
+        request={fetchUsers}
+        defaultPageSize={3}
+        className="rounded-lg border"
+      />
+    </div>
+  )
 }
 
 

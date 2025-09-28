@@ -1,6 +1,6 @@
 {
-  "name": "Magic UI",
-  "short_name": "Magic UI",
+  "name": "shadcn-pro",
+  "short_name": "shadcn-pro",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

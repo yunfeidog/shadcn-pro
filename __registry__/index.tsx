@@ -133,7 +133,7 @@ export const Index: Record<string, any> = {
   },
   "morphing-text": {
     name: "morphing-text",
-    description: "A dynamic text morphing component for Magic UI.",
+    description: "A dynamic text morphing component for shadcn-pro.",
     type: "registry:ui",
     registryDependencies: undefined,
     files: [
